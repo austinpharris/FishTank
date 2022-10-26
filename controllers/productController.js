@@ -41,7 +41,7 @@ async function createProduct(req, res) {
             description: 'This is a test product description',
             price: 100
         }
-        const newProduct = Product.create(test_product)
+        const newProduct = await Product.create(test_product)
         res.writeHead(201, {'Content-Type': 'application/json'});
         res.write(JSON.stringify( newProduct));
         res.end()
