@@ -56,8 +56,58 @@ async function createProduct(req, res) {
     }
 }
 
+async function updateProduct(req, res, id) {
+    try {
+        const product = await Product.findById(id);
+
+        if(!product) {
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.write(JSON.stringify({ message: 'Product Not Found' }));
+            res.end();
+        } else {
+            const body = await getPostData(req);
+
+            const { name, description, price } = JSON.parse(body);
+            
+            const productData = {
+                name: name || product.name,
+                description: description || product.description,
+                price: price || product.price
+            }
+            const updProduct = await Product.update(id, productData);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.write(JSON.stringify(updProduct)); 
+            res.end();
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+async function removeProduct(req, res, id){
+    try{
+        const product = await Product.findById(id);
+
+        if(!product){
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.write(JSON.stringify({ message: 'Product Not Found' }));
+            res.end();
+        }
+        else{
+            await Product.remove(id);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.write(JSON.stringify({ message: `Product ${id} removed` }));
+            res.end();
+        }
+    }catch(err){
+        console.log(err);
+    }
+}
+
 module.exports = {
     getProducts,
     getProduct,
-    createProduct
+    createProduct,
+    updateProduct,
+    removeProduct
 }
