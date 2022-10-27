@@ -1,0 +1,5 @@
+10/27/2022: 
+    Tutorial for node followed: bradtraversy/vanilla-node-rest-api
+    CRUD database using Node fs module
+    -Added PUT response
+    -Added DELETE response
